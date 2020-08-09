@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talk to strangers</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+      integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <style>
+    main {
+      width: 100%;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .container {
+      width: 50%;
+      height: 100%;
+      margin: auto;
+      border: 1px solid lightgrey;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .messages-box {
+      flex: 1;
+      flex-direction: column;
+      margin: 20px 40px 0px;
+    }
+
+    .typing-box {
+      background-color: #e43f5a;
+      width: 50%;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-radius: 5px;
+    }
+
+    .rounded-typing-box-input {
+      width: 90%;
+      height: 60%;
+      border: none;
+      border-radius: 50px;
+      padding-bottom: auto;
+      padding-top: auto;
+      padding-left: 10px;
+      font-size: 14px;
+      caret-color: #e43f5a;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .rounded-typing-box-input:focus {
+      outline: none;
+    }
+
+    .send-icon {
+      position: absolute;
+      right: 7.5%;
+      color: #e43f5a;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .send-icon:hover {
+      color: #ec7589;
+    }
+
+    .talk-bubble {
+      max-width: 90%;
+      display: inline-block;
+      position: relative;
+      height: auto;
+      background-color: #e43f5a;
+      border-radius: 5px;
+      align-self: flex-start;
+    }
+    .tri-right.border.left-top:before {
+      content: " ";
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: -40px;
+      right: auto;
+      top: -8px;
+      bottom: auto;
+      border: 32px solid;
+      border-color: #666 transparent transparent transparent;
+    }
+    .tri-right.left-top:after {
+      content: " ";
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: -20px;
+      right: auto;
+      top: 0px;
+      bottom: auto;
+      border: 22px solid;
+      border-color: #e43f5a transparent transparent transparent;
+    }
+
+    /* Right triangle, left side slightly down */
+    .tri-right.border.left-top:before {
+      content: " ";
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: -40px;
+      right: auto;
+      top: -8px;
+      bottom: auto;
+      border: 32px solid;
+      border-color: #666 transparent transparent transparent;
+    }
+    .tri-right.left-top:after {
+      content: " ";
+      position: absolute;
+      width: 0;
+      height: 0;
+      left: -10px;
+      right: auto;
+      top: 0px;
+      bottom: auto;
+      border: 10px solid;
+      border-color: #e43f5a transparent transparent transparent;
+    }
+
+    .talktext {
+      padding: 0.2em 1em;
+      font-size: 14px;
+      color: white;
+      text-align: left;
+      line-height: 1.5em;
+    }
+
+    .time {
+      color: lightgrey;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
+    .username {
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-bottom: 5px;
+    }
+
+    .talk-time {
+      display: flex;
+    }
+
+    .talk-time-me {
+      flex-direction: row-reverse;
+    }
+
+    .me {
+      background-color: transparent;
+      border: 2px solid #e43f5a;
+    }
+
+    .talktext-me {
+      color: black;
+    }
+
+    .time-me {
+      margin-right: 10px;
+      margin-left: 0px;
+    }
+
+    .username-me {
+      text-align: right;
+    }
+
+    .container {
+      overflow: scroll;
+    }
+
+    .spinner {
+        position: absolute;
+        width: 5%;
+    }
+
+    .loading {
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .looking-for-stranger {
+        position: relative;
+        top: 55%;
+    }
+
+    .stranger-joined-room {
+        text-align: center;
+        font-style: italic;
+        font-size: 14px;
+        color: #e43f5a;
+        margin-bottom: 20px;
+    }
+
+    .stranger-left-room {
+        text-align: center;
+        font-style: italic;
+        font-size: 14px;
+        color: #e43f5a;
+        margin-top: 20px;
+    }
+
+
+  </style>
+  <body>
+    <header>
+      <div class="brand">
+        <div>
+          <img class="logo" src="./images/logo.jpg" alt="" />
+        </div>
+        <div class="text">
+          T2S
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+
+          <li><a href="./chat.html" class="selected">Chat Now</a></li>
+          <li><a href="#">Download</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+        <img class="spinner" src="./images/spinner.svg" alt="">
+        <p class="looking-for-stranger">Looking for a stranger...</p>
+
+      <div class="container">
+        <div class="messages-box ">
+           
+          <!-- <div class="message">
+            <p class="username">Stranger</p>
+            <div class="talk-time">
+              <div class="talk-bubble tri-right left-top">
+                <div class="talktext">
+                  <p>
+                    This talk-bubble uses .left-in class to show a triangle on
+                    the left slig
+                  </p>
+                </div>
+              </div>
+              <p class="time">11:09 PM</p>
+            </div>
+          </div>
+
+          <div class="message">
+            <div class="talk-time talk-time-me">
+              <div class="talk-bubble tri-right me">
+                <div class="talktext talktext-me">
+                  <p>
+                    This talk-bubble
+                  </p>
+                </div>
+              </div>
+              <p class="time time-me">11:09 PM</p>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="typing-box">
+        <input
+          id="input-message"
+          type="text"
+          class="rounded-typing-box-input"
+          placeholder="Write message..." disabled
+        />
+        <i id="send-btn" class="fas fa-paper-plane send-icon"></i>
+      </div>
+    </main>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>
+    const socket = io("ws://talk-to-stranger-backend.herokuapp.com/");
+    const user = socket.id;
+    var roomId;
+    var count = 0;
+         socket.on('total count', (data) => {
+             console.log('passed');
+             count = data;
+            $('.count-online-users').text(count);
+         });
+
+    $("#send-btn").on("click", function () {
+      console.log("pressed");
+      socket.emit("chat message", {
+        roomId: roomId,
+        user: socket.id,
+        msg: $("#input-message").val(),
+      });
+      $("#input-message").val("");
+      return false;
+    });
+
+    socket.on("set room", (data) => {
+      console.log("The room is set up:", data.roomId);
+      roomId = data.roomId;
+    });
+
+    socket.on("can start chatting", (data) =>{
+        if (data){
+            $(".spinner").css("display","none");
+            $(".looking-for-stranger").css("display", "none");
+            $("#input-message").prop("disabled", false);
+            $(".messages-box").append(`<p class="stranger-joined-room">A stranger joined the room.</p>`)
+
+        }
+    });
+
+    socket.on("stopped chatting", (data) =>{
+        if (data){
+            $("#input-message").prop("disabled", true);
+            $(".messages-box").append(`<p class="stranger-left-room">The stranger left the room.</p>`)
+
+        }
+    });
+
+    socket.on("chat message", function (data) {
+      if (socket.id !== data.user) {
+        console.log("your message :", data.msg);
+        var today = new Date();
+        console.log(today);
+        var time =
+          today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + " " + (today.getHours() >
+          12
+            ? "PM"
+            : "AM");
+        console.log(time);
+
+        $(".messages-box").append(`<div class="message">
+            <p class="username">Stranger</p>
+            <div class="talk-time">
+              <div class="talk-bubble tri-right left-top">
+                <div class="talktext">
+                  <p>
+                    ${data.msg}
+                  </p>
+                </div>
+              </div>
+              <p class="time">${time}</p>
+            </div>
+          </div>`);
+      } else {
+        var today = new Date();
+        var time =
+          today.getHours() + ":" + ('0' + today.getMinutes()).slice(-2) + " " + (today.getHours() >
+          12
+            ? "PM"
+            : "AM");
+        $(".messages-box").append(`  <div class="message">
+            <div class="talk-time talk-time-me">
+              <div class="talk-bubble tri-right me">
+                <div class="talktext talktext-me">
+                  <p>
+                    ${data.msg}
+                  </p>
+                </div>
+              </div>
+              <p class="time time-me">${time}</p>
+            </div>
+          </div>`);
+      }
+    });
+  </script>
+</html>

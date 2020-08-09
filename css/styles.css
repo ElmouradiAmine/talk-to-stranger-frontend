@@ -1,0 +1,178 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: white;
+    font-family: "Poppins", sans-serif;
+  }
+
+  header {
+    height: 10vh;
+  }
+
+  .cover img {
+    width: 45vw;
+    animation: drop 1.5s ease;
+  }
+
+  main {
+    width: 80%;
+    margin: auto auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+  }
+
+  .introduction {
+    color: black;
+  }
+
+  .introduction-title {
+    font-size: 3rem;
+    font-weight: bold;
+    
+  }
+
+  .introduction-subtitle {
+    margin: 20px 0;
+  }
+
+  button {
+    font-family: "Poppins", sans-serif;
+    width: 150px;
+    height: 40px;
+    margin-right: 40px;
+    animation: drop 1.5s ease;
+  }
+
+  .chat-now-btn {
+    background-color: #e43f5a;
+    border: none;
+    color: white;
+    font-weight: bold;
+  }
+
+  .download-android-btn {
+    background-color: transparent;
+    border: 2px solid #e43f5a;
+    color: #e43f5a;
+    font-weight: bold;
+  }
+
+  header {
+      margin: 0 auto;
+      width: 80%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  footer {
+    background-color: #e33f5a;
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0 50px;
+  }
+
+  .copyright {
+    text-align: center;
+    color: white;
+  }
+
+  .social-links ul {
+    display: flex;
+    list-style: none;
+  }
+
+  .social-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+  }
+
+  .cta i {
+    margin-right: 10px;
+  }
+
+
+  .brand {
+      flex: 6;
+  }
+
+  nav {
+      flex: 7;
+  }
+  nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: space-around;
+  }
+
+  nav li a{
+      color: black;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 500;
+  }
+
+  .brand .text {
+      font-weight: bold;
+      font-size: 1.75rem;
+  }
+  .brand {
+      display: flex;
+      align-items: center;
+  }
+  .logo {
+      width: 50px;
+      z-index: -1;
+  }
+
+  .introduction {
+      animation: drop 1.5s ease;
+  }
+
+  .chat-now-btn, .download-android-btn {
+      cursor: pointer;
+      border-radius: 5px;
+  }
+
+ 
+
+
+  .chat-now-btn:focus,.download-android-btn:focus {
+      outline: 0;
+  }
+  .chat-now-btn:hover{
+      background-color:#ec7589;
+      transform: scale(1.1)
+  }
+
+  .download-android-btn:hover{
+      transform: scale(1.1)
+  }
+
+  a:hover {
+      color: #ec7589;
+  }
+
+  .selected {
+      color: #ec7589;
+  }
+  @keyframes drop {
+  0% {
+      opacity: 0;
+      transform: translateY(-80px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0px);
+  }
+}
