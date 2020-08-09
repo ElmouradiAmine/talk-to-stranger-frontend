@@ -118,9 +118,10 @@
         
         var count = 0;
 
-         fetch("https://talk-to-stranger-backend.herokuapp.com/count").then( (data) => {
-             console.log('passed');
-             count = data.json();
+         fetch("https://talk-to-stranger-backend.herokuapp.com/count").then( (resp) => {
+             
+         }).then(data => {
+            count = data;
             $('.count-online-users').text(count);
          });
 
