@@ -120,7 +120,7 @@
 
          fetch("https://talk-to-stranger-backend.herokuapp.com/count").then( (data) => {
              console.log('passed');
-             count = data;
+             count = data.json();
             $('.count-online-users').text(count);
          });
 
