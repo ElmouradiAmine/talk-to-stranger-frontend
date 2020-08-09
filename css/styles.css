@@ -144,7 +144,9 @@
       border-radius: 5px;
   }
 
- 
+  input:disabled {
+      background-color: white;
+  }
 
 
   .chat-now-btn:focus,.download-android-btn:focus {
