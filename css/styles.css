@@ -168,6 +168,9 @@
   .selected {
       color: #ec7589;
   }
+
+  
+
   @keyframes drop {
   0% {
       opacity: 0;
