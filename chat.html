@@ -442,6 +442,11 @@
             user: socket.id,
             msg: $("#input-message").val(),
           });
+          socket.emit("user typing", {
+            isTyping: false,
+            user: socket.id,
+            roomId: roomId,
+          });
           $("#input-message").val("");
         }
 
@@ -461,6 +466,11 @@
           user: socket.id,
           msg: $("#input-message").val(),
         });
+        socket.emit("user typing", {
+            isTyping: false,
+            user: socket.id,
+            roomId: roomId,
+          });
         $("#input-message").val("");
       }
 
@@ -551,15 +561,17 @@
             user: socket.id,
             roomId: roomId,
           });
-        else
+        
+        canSend = false;
+        setTimeout(() => canSend = true, 10000);
+      }
+
+      if ($("#input-message").val() === "")
           socket.emit("user typing", {
             isTyping: false,
             user: socket.id,
             roomId: roomId,
           });
-        canSend = false;
-        setTimeout(() => canSend = true, 10000);
-      }
     }
 
     socket.on("user typing", (data) => {
