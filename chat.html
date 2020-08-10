@@ -630,9 +630,8 @@
           $(".typing-indicator").css("display", "none");
         }
       });
-    });
 
-    function addVideoStream(video, stream) {
+      function addVideoStream(video, stream) {
       video.srcObject = stream;
       video.muted = true;
       video.addEventListener("loadedmetadata", () => {
@@ -664,6 +663,9 @@
           roomId: roomId,
         });
     }
+    });
+
+    
 
     
   </script>
