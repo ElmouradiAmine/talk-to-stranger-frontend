@@ -558,6 +558,21 @@
         $("#video-user").css("visibility", "hidden");
       });
 
+      function connectToNewUser(userId, stream) {
+      const call = peer.call(userId, stream);
+      console.log(call);
+      const video = document.getElementById("video-user");
+      if (call) {
+        call.on("stream", (userVideoStream) => {
+          console.log("A stream is occuring");
+          addVideoStream(video, userVideoStream);
+        });
+        call.on("close", () => {
+          video.remove();
+        });
+      }
+    }
+
       socket.on("chat message", function (data) {
         if (socket.id !== data.user) {
           console.log("your message :", data.msg);
@@ -650,19 +665,6 @@
         });
     }
 
-    function connectToNewUser(userId, stream) {
-      const call = peer.call(userId, stream);
-      console.log(call);
-      const video = document.getElementById("video-user");
-      if (call) {
-        call.on("stream", (userVideoStream) => {
-          console.log("A stream is occuring");
-          addVideoStream(video, userVideoStream);
-        });
-        call.on("close", () => {
-          video.remove();
-        });
-      }
-    }
+    
   </script>
 </html>
