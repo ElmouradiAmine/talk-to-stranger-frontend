@@ -1,0 +1,217 @@
+/* General styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  width: 80%;
+  margin: auto auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+body {
+  background-color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+header {
+  height: 10vh;
+  margin: 0 auto;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.selected {
+  color: #ec7589;
+}
+
+a:hover {
+  color: #ec7589;
+}
+
+input:disabled {
+  background-color: white;
+}
+
+button {
+  font-family: "Poppins", sans-serif;
+  width: 150px;
+  height: 40px;
+  margin-right: 40px;
+  animation: drop 1.5s ease;
+}
+
+/* Brand logo styling */
+
+.brand-link {
+  color: black;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  flex: 6;
+}
+
+.brand-link .brand-title {
+  font-weight: bold;
+  font-size: 1.75rem;
+}
+
+.brand-logo {
+  width: 50px;
+  z-index: -1;
+}
+
+/* Navbar styling */
+
+.navbar {
+  flex: 7;
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-link {
+  color: black;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Introduction styling */
+
+/* Text content styling */
+
+.introduction {
+  color: black;
+  animation: drop 1.5s ease;
+}
+
+.introduction-version {
+  font-size: 1rem;
+}
+
+.introduction-title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.introduction-subtitle {
+  margin: 20px 0;
+}
+
+/* Call to action styling */
+
+.chat-now-btn {
+  background-color: #e43f5a;
+  border: none;
+  color: white;
+  font-weight: bold;
+}
+
+.download-android-btn {
+  background-color: transparent;
+  border: 2px solid #e43f5a;
+  color: #e43f5a;
+  font-weight: bold;
+}
+
+.chat-now-btn,
+.download-android-btn {
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.chat-now-btn:focus,
+.download-android-btn:focus {
+  outline: 0;
+}
+.chat-now-btn:hover {
+  background-color: #ec7589;
+  transform: scale(1.1);
+}
+
+.download-android-btn:hover {
+  transform: scale(1.1);
+}
+
+.cta i {
+  margin-right: 10px;
+}
+
+.online-strangers {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.online-dot {
+  background-color: green;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+/* Cover Image styling */
+
+.cover img {
+  width: 45vw;
+  animation: drop 1.5s ease;
+}
+
+/* Footer styling */
+
+footer {
+  background-color: #e33f5a;
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.copyright {
+  text-align: center;
+  color: white;
+}
+
+.social-links ul {
+  display: flex;
+  list-style: none;
+}
+
+.social-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+}
+
+.social-links i:hover {
+    transform: scale(1.1);
+    opacity: 0.5;
+    color: white;
+  }
+
+/* Animations */
+
+@keyframes drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+/* Media queries */

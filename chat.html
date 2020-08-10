@@ -12,9 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" 
-    type="image/png" 
-    href="./images/logo.png">
+    <link rel="icon" type="image/png" href="./images/logo.png" />
 
     <link
       rel="stylesheet"
@@ -22,21 +20,23 @@
       integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/main.css" />
   </head>
   <style>
     main {
-      width: 100%;
+      position: absolute;
       height: 90vh;
+      right: 0;
+      padding-left: 20%;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
     }
 
     .container {
-      width: 50%;
+      width: 80%;
       height: 100%;
-      margin: auto;
+      margin: 0;
       border: 1px solid lightgrey;
       border-radius: 5px;
       display: flex;
@@ -52,7 +52,7 @@
 
     .typing-box {
       background-color: #e43f5a;
-      width: 50%;
+      width: 80%;
       height: 60px;
       display: flex;
       justify-content: center;
@@ -260,7 +260,7 @@
     }
 
     .info-section {
-      width: 50%;
+      width: 80%;
       margin: auto;
       display: flex;
       justify-content: space-between;
@@ -335,38 +335,57 @@
       }
     }
 
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 1024px) {
       .container {
-          width: 80%;
+        width: 80%;
       }
 
       .typing-box {
         width: 80%;
-
       }
-  }
+    }
+
+    .video-grid {
+      width: 90vh;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-left: 5%;
+      padding-top: 4%;
+    }
+    #video-user,
+    #video-user-me {
+      margin-bottom: 20px;
+    }
   </style>
   <body>
     <header>
-      <a class="brand" href="./index.html">
+      <a class="brand-link" href="./index.html">
         <div>
-          <img class="logo" src="./images/logo.jpg" alt="" />
+          <img class="brand-logo" src="./images/logo.jpg" alt="" />
         </div>
-        <div class="text">
+        <div class="brand-title">
           T2S
         </div>
       </a>
+      <nav class="navbar">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="nav-link" href="./index.html" class="selected">Home</a>
+          </li>
 
-      <nav>
-        <ul>
-          <li><a href="./index.html">Home</a></li>
-
-          <li><a href="./chat.html" class="selected">Chat Now</a></li>
-          <li><a href="#">Download</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="./chat.html">Chat Now</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
         </ul>
       </nav>
     </header>
-
+    <div class="video-grid">
+      <video id="video-user" width="460" height="290"></video>
+      <video id="video-user-me" width="460" height="290"></video>
+    </div>
     <main>
       <section class="info-section">
         <div class="online-strangers">
@@ -390,35 +409,7 @@
         <span></span>
       </div>
       <div class="container">
-        <div class="messages-box">
-          <!-- <div class="message">
-            <p class="username">Stranger</p>
-            <div class="talk-time">
-              <div class="talk-bubble tri-right left-top">
-                <div class="talktext">
-                  <p>
-                    This talk-bubble uses .left-in class to show a triangle on
-                    the left slig
-                  </p>
-                </div>
-              </div>
-              <p class="time">11:09 PM</p>
-            </div>
-          </div>
-
-          <div class="message">
-            <div class="talk-time talk-time-me">
-              <div class="talk-bubble tri-right me">
-                <div class="talktext talktext-me">
-                  <p>
-                    This talk-bubble
-                  </p>
-                </div>
-              </div>
-              <p class="time time-me">11:09 PM</p>
-            </div>
-          </div> -->
-        </div>
+        <div class="messages-box"></div>
       </div>
       <div class="typing-box">
         <input
@@ -436,21 +427,91 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
   <script>
     const socket = io("ws://talk-to-stranger-backend.herokuapp.com");
-    const user = socket.id;
-    var roomId;
-    var count = 0;
-    var canSend = true;
-    socket.on("total count", (data) => {
-      console.log("passed");
-      count = data;
-      $(".count-online-users").text(count);
-    });
 
-    $(document).keypress(function (event) {
-      var keycode = event.keyCode ? event.keyCode : event.which;
-      if (keycode == "13") {
+    socket.on("connect", () => {
+      var peer = new Peer(socket.id);
+      var myMediaStream = null;
+      var destMediaStream = null;
+      navigator.mediaDevices
+        .getUserMedia({
+          audio: true,
+          video: true,
+        })
+        .then((stream) => {
+          myMediaStream = stream;
+          addVideoStream(
+            document.getElementById("video-user-me"),
+            myMediaStream
+          );
+
+          peer.on("call", (call) => {
+            console.log("ONE OF THE PEER CALLED");
+            call.answer(myMediaStream);
+            // call.on("stream", (userVideoStream) => {
+            //   console.log(' the user is streaming')
+            //   addVideoStream(
+            //     document.getElementById("video-user"),
+            //     userVideoStream
+            //   );
+            // });
+          });
+        })
+        .catch((error) => console.log(error));
+
+      function connectToNewUser(userId, stream) {
+        const call = peer.call(userId, stream);
+        console.log(call);
+        const video = document.getElementById("video-user");
+        call.on("stream", (userVideoStream) => {
+          console.log("A stream is occuring");
+          addVideoStream(video, userVideoStream);
+        });
+        call.on("close", () => {
+          video.remove();
+        });
+      }
+
+      const user = socket.id;
+      var destPeerId;
+      var roomId;
+      var count = 0;
+      var canSend = true;
+      socket.on("total count", (data) => {
+        console.log("passed");
+        count = data;
+        $(".count-online-users").text(count);
+      });
+
+      $(document).keypress(function (event) {
+        var keycode = event.keyCode ? event.keyCode : event.which;
+        if (keycode == "13") {
+          if ($("#input-message").val() !== "") {
+            socket.emit("chat message", {
+              roomId: roomId,
+              user: socket.id,
+              msg: $("#input-message").val(),
+            });
+            socket.emit("user typing", {
+              isTyping: false,
+              user: socket.id,
+              roomId: roomId,
+            });
+            $("#input-message").val("");
+          }
+
+          return false;
+        }
+      });
+
+      $(".chat-now-btn").on("click", function () {
+        location.reload();
+      });
+
+      $("#send-btn").on("click", function () {
+        console.log("pressed");
         if ($("#input-message").val() !== "") {
           socket.emit("chat message", {
             roomId: roomId,
@@ -466,135 +527,133 @@
         }
 
         return false;
+      });
+
+      socket.on("set room", (data) => {
+        console.log("The room is set up:", data.roomId);
+        roomId = data.roomId;
+      });
+
+      socket.on("can start chatting", (data) => {
+        console.log(socket.id);
+        console.log(data);
+        if (data) {
+          if (data.peer1 !== socket.id) destPeerId = data.peer1;
+          else destPeerId = data.peer2;
+
+          setTimeout(() => {
+            console.log("destination ", destPeerId);
+            console.log(myMediaStream);
+            connectToNewUser(destPeerId, myMediaStream);
+          }, 1000);
+
+          $(".spinner").css("display", "none");
+          $(".looking-for-stranger").css("display", "none");
+          $("#input-message").prop("disabled", false);
+          $(".messages-box").append(
+            `<p class="stranger-joined-room">A stranger joined the room.</p>`
+          );
+        }
+      });
+
+      socket.on("stopped chatting", (data) => {
+        if (data) {
+          $("#input-message").prop("disabled", true);
+          $(".messages-box").append(
+            `<p class="stranger-left-room">The stranger left the room.</p>`
+          );
+        }
+      });
+
+      socket.on("chat message", function (data) {
+        if (socket.id !== data.user) {
+          console.log("your message :", data.msg);
+          var today = new Date();
+          console.log(today);
+          var time =
+            today.getHours() +
+            ":" +
+            ("0" + today.getMinutes()).slice(-2) +
+            " " +
+            (today.getHours() > 12 ? "PM" : "AM");
+          console.log(time);
+
+          $(".messages-box").append(`<div class="message">
+                <p class="username">Stranger</p>
+                <div class="talk-time">
+                  <div class="talk-bubble tri-right left-top">
+                    <div class="talktext">
+                      <p>
+                        ${data.msg}
+                      </p>
+                    </div>
+                  </div>
+                  <p class="time">${time}</p>
+                </div>
+              </div>`);
+        } else {
+          var today = new Date();
+          var time =
+            today.getHours() +
+            ":" +
+            ("0" + today.getMinutes()).slice(-2) +
+            " " +
+            (today.getHours() > 12 ? "PM" : "AM");
+          $(".messages-box").append(`  <div class="message">
+                <div class="talk-time talk-time-me">
+                  <div class="talk-bubble tri-right me">
+                    <div class="talktext talktext-me">
+                      <p>
+                        ${data.msg}
+                      </p>
+                    </div>
+                  </div>
+                  <p class="time time-me">${time}</p>
+                </div>
+              </div>`);
+        }
+      });
+
+      function handleChange() {
+        if (canSend) {
+          console.log("is changing");
+
+          if ($("#input-message").val() !== "")
+            socket.emit("user typing", {
+              isTyping: true,
+              user: socket.id,
+              roomId: roomId,
+            });
+
+          canSend = false;
+          setTimeout(() => (canSend = true), 10000);
+        }
+
+        if ($("#input-message").val() === "")
+          socket.emit("user typing", {
+            isTyping: false,
+            user: socket.id,
+            roomId: roomId,
+          });
       }
-    });
 
-    $(".chat-now-btn").on("click", function () {
-      location.reload();
-    });
+      socket.on("user typing", (data) => {
+        console.log("user typing", data);
+        if (data.isTyping && data.user !== socket.id) {
+          $(".typing-indicator").css("display", "table");
+        } else {
+          $(".typing-indicator").css("display", "none");
+        }
+      });
 
-    $("#send-btn").on("click", function () {
-      console.log("pressed");
-      if ($("#input-message").val() !== "") {
-        socket.emit("chat message", {
-          roomId: roomId,
-          user: socket.id,
-          msg: $("#input-message").val(),
+      function addVideoStream(video, stream) {
+        video.srcObject = stream;
+        video.muted = true;
+        video.addEventListener("loadedmetadata", () => {
+          console.log("passed");
+
+          video.play();
         });
-        socket.emit("user typing", {
-            isTyping: false,
-            user: socket.id,
-            roomId: roomId,
-          });
-        $("#input-message").val("");
-      }
-
-      return false;
-    });
-
-    socket.on("set room", (data) => {
-      console.log("The room is set up:", data.roomId);
-      roomId = data.roomId;
-    });
-
-    socket.on("can start chatting", (data) => {
-      if (data) {
-        $(".spinner").css("display", "none");
-        $(".looking-for-stranger").css("display", "none");
-        $("#input-message").prop("disabled", false);
-        $(".messages-box").append(
-          `<p class="stranger-joined-room">A stranger joined the room.</p>`
-        );
-      }
-    });
-
-    socket.on("stopped chatting", (data) => {
-      if (data) {
-        $("#input-message").prop("disabled", true);
-        $(".messages-box").append(
-          `<p class="stranger-left-room">The stranger left the room.</p>`
-        );
-      }
-    });
-
-    socket.on("chat message", function (data) {
-      if (socket.id !== data.user) {
-        console.log("your message :", data.msg);
-        var today = new Date();
-        console.log(today);
-        var time =
-          today.getHours() +
-          ":" +
-          ("0" + today.getMinutes()).slice(-2) +
-          " " +
-          (today.getHours() > 12 ? "PM" : "AM");
-        console.log(time);
-
-        $(".messages-box").append(`<div class="message">
-            <p class="username">Stranger</p>
-            <div class="talk-time">
-              <div class="talk-bubble tri-right left-top">
-                <div class="talktext">
-                  <p>
-                    ${data.msg}
-                  </p>
-                </div>
-              </div>
-              <p class="time">${time}</p>
-            </div>
-          </div>`);
-      } else {
-        var today = new Date();
-        var time =
-          today.getHours() +
-          ":" +
-          ("0" + today.getMinutes()).slice(-2) +
-          " " +
-          (today.getHours() > 12 ? "PM" : "AM");
-        $(".messages-box").append(`  <div class="message">
-            <div class="talk-time talk-time-me">
-              <div class="talk-bubble tri-right me">
-                <div class="talktext talktext-me">
-                  <p>
-                    ${data.msg}
-                  </p>
-                </div>
-              </div>
-              <p class="time time-me">${time}</p>
-            </div>
-          </div>`);
-      }
-    });
-
-    function handleChange() {
-      if (canSend) {
-      console.log("is changing");
-
-        if ($("#input-message").val() !== "")
-          socket.emit("user typing", {
-            isTyping: true,
-            user: socket.id,
-            roomId: roomId,
-          });
-        
-        canSend = false;
-        setTimeout(() => canSend = true, 10000);
-      }
-
-      if ($("#input-message").val() === "")
-          socket.emit("user typing", {
-            isTyping: false,
-            user: socket.id,
-            roomId: roomId,
-          });
-    }
-
-    socket.on("user typing", (data) => {
-        console.log('user typing', data);
-      if (data.isTyping && data.user !== socket.id) {
-        $(".typing-indicator").css("display", "table");
-      } else {
-        $(".typing-indicator").css("display", "none");
       }
     });
   </script>

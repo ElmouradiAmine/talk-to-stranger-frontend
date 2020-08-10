@@ -3,104 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
-    
-    <title>Talk to strangers</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+
+    <title>Talk To Strangers</title>
+    <!-- Google fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" 
-      type="image/png" 
-      href="./images/logo.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./images/logo.png" />
 
+    <!-- Fontawesome icons -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
       integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/styles.css" />
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="./css/main.css" />
   </head>
- 
 
   <style>
-      .online-strangers{
-          margin-top: 10px;
-          display: flex;
-          align-items: center;
-      }
-
-      .online-dot{
-          background-color: green;
-          width: 10px;
-          height: 10px;
-          border-radius: 100%;
-          margin-right: 10px;
-      }
-      .brand {
-          color: black;
-          text-decoration: none;
-      }
+    
+   
   </style>
   <body>
+    <!-- Start Header -->
     <header>
-      <a class="brand" href="./index.html">
+      <!-- Start Brand -->
+      <a class="brand-link" href="./index.html">
         <div>
-          <img class="logo" src="./images/logo.jpg" alt="" />
+          <img class="brand-logo" src="./images/logo.jpg" alt="" />
         </div>
-        <div class="text">
+        <div class="brand-title">
           T2S
         </div>
-    </a>
+      </a>
 
-      <nav>
-        <ul>
-          <li><a href="#" class="selected">Home</a></li>
+      <!-- End Brand -->
 
-          <li><a href="./chat.html">Chat Now</a></li>
-          <li><a href="#">Download</a></li>
+      <!-- Start Navbar -->
+      <nav class="navbar">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="nav-link" href="./index.html" class="selected">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="./chat.html">Chat Now</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
         </ul>
       </nav>
+
+      <!-- End Navbar -->
     </header>
 
-    <main>
+    <!-- End Header -->
+
+    <!-- Main section -->
+    <main class="body">
+
+      <!-- Start Introduction section-->
       <div class="introduction">
-        <h1 class="introduction-title">Talk To Strangers</h1>
+
+        <!-- Start Text content -->
+        <h1 class="introduction-title">Talk To Strangers<sub class="introduction-version">v0.0.1</sub></h1>
         <p class="introduction-subtitle">
-          Are you bored during this quarantine? Meet hundreds of strangers online. Forge lifetime friendships and meet your future soulmate !
+          Are you bored during this quarantine? Meet hundreds of strangers
+          online. Forge lifetime friendships and meet your future soulmate !
         </p>
+        <!-- End Text content -->
 
+        <!-- Start Call to action -->
         <div class="cta">
-          <a href="./chat.html"><button class="chat-now-btn">
-            <i class="fas fa-comments"></i> Chat now
-          </button></a>
-          <button class="download-android-btn">
-            <i class="fab fa-google-play"></i> Android
-          </button>
+          <a href="./chat.html"
+            ><button class="chat-now-btn">
+              <i class="fas fa-comments"></i> Chat now
+            </button></a
+          >
+         
         </div>
-      <div class="online-strangers">
-          <div class="online-dot">
 
-          </div>
+        <!-- End Call to action -->
+        <div class="online-strangers">
+          <div class="online-dot"></div>
           <div class="online-text">
-              <p><span class="count-online-users">1432</span> strangers online.</p>
+            <p>
+              <span class="count-online-users">1</span> strangers online.
+            </p>
           </div>
+        </div>
       </div>
+      <!-- End Introduction -->
 
-      </div>
-
-
+      <!-- Start Image cover -->
       <div class="cover">
         <img src="./images/Texting-bro.svg" alt="" />
       </div>
+      <!-- Start Image cover -->
     </main>
 
+    <!-- End Main Section -->
+
+    <!-- Start Footer -->
     <footer>
       <div class="social-links">
         <ul class="social-list">
           <li>
-            <a class="social-link" href=""
+            <a class="social-link" href="https://www.facebook.com/profile.php?id=100010477530830" target="_blank"
               ><i class="fab fa-facebook-square fa-lg"></i
             ></a>
           </li>
@@ -110,31 +127,20 @@
             ></a>
           </li>
           <li>
-            <a class="social-link" href=""
+            <a class="social-link" href="https://www.linkedin.com/in/elmouradi-amine-599702183/" target="_blank"
               ><i class="fab fa-linkedin fa-lg"></i
             ></a>
           </li>
         </ul>
       </div>
       <div class="copyright">
-        Copyright &copy; 2020 Itwins.
+        Copyright &copy; 2020 Amine Elmouradi.
       </div>
     </footer>
 
+    <!-- End Footer -->
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-        
-        var count = 0;
-
-         fetch("https://talk-to-stranger-backend.herokuapp.com/count").then( (resp) => {
-             return resp.json();
-         }).then(data => {
-            count = data;
-            $('.count-online-users').text(count+1);
-         });
-
-    </script>
+    <script src="./js/fetchCount.js"></script>
   </body>
-
-
 </html>
