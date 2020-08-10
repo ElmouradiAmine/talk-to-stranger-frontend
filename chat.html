@@ -434,7 +434,7 @@
   <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
   <script>
     const socket = io("ws://talk-to-stranger-backend.herokuapp.com");
-
+    var canSend = true;
     socket.on("connect", () => {
       var peer = new Peer(socket.id);
       var myMediaStream = null;
@@ -469,7 +469,6 @@
       var destPeerId;
       var roomId;
       var count = 0;
-      var canSend = true;
       socket.on("total count", (data) => {
         console.log("passed");
         count = data;
@@ -641,6 +640,10 @@
       });
     }
 
+    
+    });
+
+    
     function handleChange() {
       if (canSend) {
         console.log("is changing");
@@ -663,10 +666,6 @@
           roomId: roomId,
         });
     }
-    });
-
-    
-
     
   </script>
 </html>
