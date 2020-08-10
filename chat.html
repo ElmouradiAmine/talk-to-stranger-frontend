@@ -454,29 +454,16 @@
           peer.on("call", (call) => {
             console.log("ONE OF THE PEER CALLED");
             call.answer(myMediaStream);
-            // call.on("stream", (userVideoStream) => {
-            //   console.log(' the user is streaming')
-            //   addVideoStream(
-            //     document.getElementById("video-user"),
-            //     userVideoStream
-            //   );
-            // });
+            call.on("stream", (userVideoStream) => {
+              console.log(' the user is streaming')
+              addVideoStream(
+                document.getElementById("video-user"),
+                userVideoStream
+              );
+            });
           });
         })
         .catch((error) => console.log(error));
-
-      function connectToNewUser(userId, stream) {
-        const call = peer.call(userId, stream);
-        console.log(call);
-        const video = document.getElementById("video-user");
-        call.on("stream", (userVideoStream) => {
-          console.log("A stream is occuring");
-          addVideoStream(video, userVideoStream);
-        });
-        call.on("close", () => {
-          video.remove();
-        });
-      }
 
       const user = socket.id;
       var destPeerId;
@@ -620,29 +607,6 @@
         }
       });
 
-      function handleChange() {
-        if (canSend) {
-          console.log("is changing");
-
-          if ($("#input-message").val() !== "")
-            socket.emit("user typing", {
-              isTyping: true,
-              user: socket.id,
-              roomId: roomId,
-            });
-
-          canSend = false;
-          setTimeout(() => (canSend = true), 10000);
-        }
-
-        if ($("#input-message").val() === "")
-          socket.emit("user typing", {
-            isTyping: false,
-            user: socket.id,
-            roomId: roomId,
-          });
-      }
-
       socket.on("user typing", (data) => {
         console.log("user typing", data);
         if (data.isTyping && data.user !== socket.id) {
@@ -651,16 +615,54 @@
           $(".typing-indicator").css("display", "none");
         }
       });
+    });
 
-      function addVideoStream(video, stream) {
-        video.srcObject = stream;
-        video.muted = true;
-        video.addEventListener("loadedmetadata", () => {
-          console.log("passed");
+    function addVideoStream(video, stream) {
+      video.srcObject = stream;
+      video.muted = true;
+      video.addEventListener("loadedmetadata", () => {
+        console.log("passed");
 
-          video.play();
+        video.play();
+      });
+    }
+
+    function handleChange() {
+      if (canSend) {
+        console.log("is changing");
+
+        if ($("#input-message").val() !== "")
+          socket.emit("user typing", {
+            isTyping: true,
+            user: socket.id,
+            roomId: roomId,
+          });
+
+        canSend = false;
+        setTimeout(() => (canSend = true), 10000);
+      }
+
+      if ($("#input-message").val() === "")
+        socket.emit("user typing", {
+          isTyping: false,
+          user: socket.id,
+          roomId: roomId,
+        });
+    }
+
+    function connectToNewUser(userId, stream) {
+      const call = peer.call(userId, stream);
+      console.log(call);
+      const video = document.getElementById("video-user");
+      if (call) {
+        call.on("stream", (userVideoStream) => {
+          console.log("A stream is occuring");
+          addVideoStream(video, userVideoStream);
+        });
+        call.on("close", () => {
+          video.remove();
         });
       }
-    });
+    }
   </script>
 </html>
