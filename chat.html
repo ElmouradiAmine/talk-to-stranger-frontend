@@ -563,6 +563,8 @@
             `<p class="stranger-left-room">The stranger left the room.</p>`
           );
         }
+
+        $("#video-user").css("visibility", "hidden");
       });
 
       socket.on("chat message", function (data) {
