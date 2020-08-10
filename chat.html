@@ -435,6 +435,9 @@
   <script>
     const socket = io("ws://talk-to-stranger-backend.herokuapp.com");
     var canSend = true;
+    var destPeerId;
+      var roomId;
+      var count = 0;
     socket.on("connect", () => {
       var peer = new Peer(socket.id);
       var myMediaStream = null;
@@ -466,9 +469,7 @@
         .catch((error) => console.log(error));
 
       const user = socket.id;
-      var destPeerId;
-      var roomId;
-      var count = 0;
+  
       socket.on("total count", (data) => {
         console.log("passed");
         count = data;
